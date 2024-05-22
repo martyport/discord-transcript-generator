@@ -1,7 +1,7 @@
 {
-  "name": "discord-html-transcripts",
-  "version": "3.2.0",
-  "description": "A nicely formatted html transcript generator for discord.js.",
+  "name": "discord-transcript-generator",
+  "version": "3.2.1",
+  "description": "A node.js library for generating nicely formatted HTML transcripts customized for special use cases",
   "main": "dist/index.js",
   "homepage": "https://github.com/ItzDerock/discord-html-transcripts",
   "types": "./dist/index.d.ts",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ItzDerock/discord-html-transcripts.git"
+    "url": "git+https://github.com/martyport/discord-transcript-generator.git"
   },
   "keywords": [
     "discord.js",
@@ -26,6 +26,13 @@
     "discord-transcripts"
   ],
   "author": "Derock <derock@derock.dev>",
+  "contributors": [
+    {
+      "name": "martyport",
+      "email": "admin@martyport.de",
+      "url": "https://github.com/martyport"
+    }
+  ],
   "license": "GNU GPLv3",
   "files": [
     "dist/**/*.js",
@@ -51,6 +58,7 @@
     "@derockdev/discord-components-core": "^3.6.1",
     "@derockdev/discord-components-react": "^3.6.1",
     "discord-markdown-parser": "~1.1.0",
+    "moment": "^2.30.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "simple-markdown": "^0.7.3",

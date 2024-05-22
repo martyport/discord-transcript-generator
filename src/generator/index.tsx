@@ -10,6 +10,7 @@ import { readFileSync } from 'fs';
 import path from 'path';
 import { renderToString } from '@derockdev/discord-components-core/hydrate';
 import { isDefined } from '../utils/utils';
+import moment from 'moment';
 
 // read the package.json file and get the @derockdev/discord-components-core version
 let discordComponentsVersion = '^3.6.1';
@@ -36,10 +37,14 @@ export type RenderMessageContext = {
   saveImages: boolean;
   favicon: 'guild' | string;
   hydrate: boolean;
+  customGuildIconURL: string | undefined;
+  customAttachmentURL: string | undefined;
+  customAvatarURL: string | undefined;
+  customRoleIconURL: string | undefined;
 };
 
 export default async function renderMessages({ messages, channel, callbacks, ...options }: RenderMessageContext) {
-  const profiles = buildProfiles(messages);
+  const profiles = buildProfiles(messages, { messages, channel, callbacks, ...options });
 
   const chatBody = (
     await Promise.all(
@@ -55,10 +60,11 @@ export default async function renderMessages({ messages, channel, callbacks, ...
   ).filter(isDefined);
 
   const elements = (
-    <DiscordMessages style={{ minHeight: '100vh' }}>
+    <DiscordMessages style={{ border: '5px solid gray', borderRadius: '10px' }}>
       {/* header */}
       <DiscordHeader
-        guild={channel.isDMBased() ? 'Direct Messages' : channel.guild.name}
+        style={{ padding: '1rem', borderBottom: '5px solid rgba(79, 84, 92, 0.48)' }}
+        guild={channel.isDMBased() ? 'DM Transkript' : channel.guild.name}
         channel={
           channel.isDMBased()
             ? channel.type === ChannelType.DM
@@ -66,31 +72,55 @@ export default async function renderMessages({ messages, channel, callbacks, ...
               : 'Unknown Recipient'
             : channel.name
         }
-        icon={channel.isDMBased() ? undefined : channel.guild.iconURL({ size: 128 }) ?? undefined}
+        icon={
+          channel.isDMBased()
+            ? undefined
+            : channel.guild.icon
+            ? options.customGuildIconURL
+              ? options.customGuildIconURL
+                  .replace('[guildId]', channel.guildId)
+                  .replace('[guildIcon]', channel.guild.icon)
+              : channel.guild.iconURL({ size: 128 }) ?? undefined
+            : undefined
+        }
       >
         {channel.isThread()
-          ? `Thread channel in ${channel.parent?.name ?? 'Unknown Channel'}`
+          ? `Thread in ${channel.parent?.name ?? 'Unknown Channel'}`
           : channel.isDMBased()
-          ? `Direct Messages`
+          ? `Direktnachrichten`
           : channel.isVoiceBased()
-          ? `Voice Text Channel for ${channel.name}`
+          ? `Voice-Textchannel ${channel.name}`
           : channel.type === ChannelType.GuildCategory
           ? `Category Channel`
           : 'topic' in channel && channel.topic
           ? await renderContent(channel.topic, { messages, channel, callbacks, type: RenderType.REPLY, ...options })
-          : `This is the start of #${channel.name} channel.`}
+          : `Dieser Kanal hat keine Beschreibung.`}
       </DiscordHeader>
 
       {/* body */}
       {chatBody}
 
       {/* footer */}
-      <div style={{ textAlign: 'center', width: '100%' }}>
-        {options.footerText
+      <div
+        style={{
+          textAlign: 'center',
+          borderTop: '1px solid rgba(79, 84, 92, 0.48)',
+          marginTop: '20px',
+          padding: '5px',
+        }}
+      >
+        {
+          /*
+          options.footerText
           ? options.footerText
               .replaceAll('{number}', messages.length.toString())
               .replace('{s}', messages.length > 1 ? 's' : '')
-          : `Exported ${messages.length} message${messages.length > 1 ? 's' : ''}.`}{' '}
+          : `Exported ${messages.length} message${messages.length > 1 ? 's' : ''}.`
+          */
+          `${messages.length} Nachricht${
+            messages.length > 1 ? 'en' : ''
+          } gespeichert | Transkript erstellt am ${moment().format('DD.MM.YYYY, HH:mm:ss')} Uhr`
+        }{' '}
         {options.poweredBy ? (
           <span style={{ textAlign: 'center' }}>
             Powered by{' '}
@@ -108,7 +138,7 @@ export default async function renderMessages({ messages, channel, callbacks, ...
     <html>
       <head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/*<meta name="viewport" content="width=device-width, initial-scale=1" />*/}
 
         {/* favicon */}
         <link
@@ -124,7 +154,7 @@ export default async function renderMessages({ messages, channel, callbacks, ...
         />
 
         {/* title */}
-        <title>{channel.isDMBased() ? 'Direct Messages' : channel.name}</title>
+        <title>{channel.isDMBased() ? 'DM Transkript' : channel.name + ' | Transkript'}</title>
 
         {/* message reference handler */}
         <script
@@ -152,8 +182,8 @@ export default async function renderMessages({ messages, channel, callbacks, ...
 
       <body
         style={{
-          margin: 0,
-          minHeight: '100vh',
+          margin: '30px',
+          backgroundColor: '#36393e',
         }}
       >
         {elements}

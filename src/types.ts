@@ -64,6 +64,27 @@ export type GenerateFromMessagesOptions<T extends ExportReturnType> = Partial<{
    * @default false - the returned html will be hydrated client-side
    */
   hydrate: boolean;
+
+  /**
+   * Params: [guildId] [guildIcon]
+   * @default undefined;
+   */
+  customGuildIconURL: string | undefined;
+
+  /**
+   * Params: [channelId] [messageId] [attachmentId] [attachmentName]
+   */
+  customAttachmentURL: string | undefined;
+
+  /**
+   * Params: [userId] [userAvatar]
+   */
+  customAvatarURL: string | undefined;
+
+  /**
+   * Params: [guildId] [roleId] [roleIcon]
+   */
+  customRoleIconURL: string | undefined;
 }>;
 
 export type CreateTranscriptOptions<T extends ExportReturnType> = Partial<

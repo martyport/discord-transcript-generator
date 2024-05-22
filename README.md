@@ -1,4 +1,17 @@
-# `discord-html-transcripts`
+# Discord Transcript Generator for Node.js
+
+Generates nicely formatted HTML transcripts
+
+Can be used in conjunction with an API to ...
+- keep attachments permanently available without saving them directly in the HTML file.
+- keep avatars, guild icon and role icons up to date.
+
+Additional changes:
+- translated to German
+- modified styles
+
+#
+# Forked from: [`discord-html-transcripts`](https://github.com/ItzDerock/discord-html-transcripts)`
 
 [![Discord](https://img.shields.io/discord/555474311637499955?label=discord)](https://discord.gg/rf5qN7C)
 [![npm](https://img.shields.io/npm/dw/discord-html-transcripts)](http://npmjs.org/package/discord-html-transcripts)
