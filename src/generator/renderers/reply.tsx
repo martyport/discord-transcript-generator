@@ -24,7 +24,7 @@ export default async function renderReply(message: Message, context: RenderMessa
         referencedMessage.member?.nickname ?? referencedMessage.author.displayName ?? referencedMessage.author.username
       }
       avatar={referencedMessage.author.avatarURL({ size: 32 }) ?? undefined}
-      roleColor={referencedMessage.member?.displayHexColor ?? undefined}
+      roleColor={(referencedMessage.member?.displayHexColor === "#000000" ? undefined : referencedMessage.member?.displayHexColor) ?? undefined}
       bot={!isCrosspost && referencedMessage.author.bot}
       verified={referencedMessage.author.flags?.has(UserFlags.VerifiedBot)}
       op={message.channel.isThread() && referencedMessage.author.id === message.channel.ownerId}

@@ -53,7 +53,7 @@ function buildProfile(options: RenderMessageContext, member: GuildMember | null,
     avatar: options.customAvatarURL
       ? options.customAvatarURL.replace('[userId]', author.id).replace('[userAvatar]', author.avatar ?? 'null')
       : member?.displayAvatarURL({ size: 64 }) ?? author.displayAvatarURL({ size: 64 }),
-    roleColor: member?.displayHexColor,
+    roleColor: member?.displayHexColor === "#000000" ? undefined : member?.displayHexColor,
     // roleIcon: member?.roles.icon?.iconURL() ?? undefined,
     roleIcon: member?.roles.icon?.icon
       ? options.customRoleIconURL

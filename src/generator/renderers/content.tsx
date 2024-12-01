@@ -113,7 +113,7 @@ export async function renderASTNode(node: SingleASTNode, context: RenderContentC
       const role = await context.callbacks.resolveRole(id);
 
       return (
-        <DiscordMention type="role" color={context.type === RenderType.REPLY ? undefined : role?.hexColor}>
+        <DiscordMention type="role" color={/*context.type === RenderType.REPLY ? undefined :*/ role?.hexColor === "#000000" ? undefined : role?.hexColor}>
           {role ? role.name : `<@&${id}>`}
         </DiscordMention>
       );
