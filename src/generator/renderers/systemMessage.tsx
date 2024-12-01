@@ -19,7 +19,7 @@ export default async function renderSystemMessage(message: Message) {
           <Highlight color={message.member?.roles.color?.hexColor === "#000000" ? undefined : message.member?.roles.color?.hexColor}>
             {message.author.displayName ?? message.author.username}
           </Highlight>{' '}
-          pinned <i data-goto={message.reference?.messageId}>a message</i> to this channel.
+          hat <i data-goto={message.reference?.messageId}>eine Nachricht</i> an diesen Kanal angepinnt.
           {/* reactions */}
           {message.reactions.cache.size > 0 && (
             <DiscordReactions slot="reactions">
@@ -45,7 +45,7 @@ export default async function renderSystemMessage(message: Message) {
           <Highlight color={message.member?.roles.color?.hexColor === "#000000" ? undefined : message.member?.roles.color?.hexColor}>
             {message.author.displayName ?? message.author.username}
           </Highlight>{' '}
-          boosted the server!
+          hat den Server gerade geboostet!
         </DiscordSystemMessage>
       );
 
@@ -55,7 +55,7 @@ export default async function renderSystemMessage(message: Message) {
           <Highlight color={message.member?.roles.color?.hexColor === "#000000" ? undefined : message.member?.roles.color?.hexColor}>
             {message.author.displayName ?? message.author.username}
           </Highlight>{' '}
-          started a thread: <i data-goto={message.reference?.messageId}>{message.content}</i>
+          hat einen Thread begonnen: <i data-goto={message.reference?.messageId}>{message.content}</i>
         </DiscordSystemMessage>
       );
 
